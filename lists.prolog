@@ -1,9 +1,9 @@
 % 1.01 Find the last element of a list
-my_last(X,[X|[]]) :- !.
+my_last(X,[X]) :- !.
 my_last(X,[_|T]) :- my_last(X,T).
 
 % 1.02 Find the last but one element of a list.
-lst_but_one(X, [X|[_|[]]]) :- !.
+lst_but_one(X, [X,_]) :- !.
 lst_but_one(X, [_|T]) :- lst_but_one(X,T).
 
 % 1.03 Find the K'th element of a list.
@@ -13,24 +13,24 @@ element_at(X,[_|T], N) :-
         element_at(X, T, M).
 
 % 1.04 Find the number of elements of a list
-my_length(1, [_|[]]) :- !.
+my_length(1, [_]) :- !.
 my_length(X, [_|T]) :-
         my_length(Y,T),
         X is Y+1.
 
 % 1.05 Reverse a list.
 my_reverse(L, R) :- my_reverse(L,[],R).
-my_reverse([H|[]],L,[H|L]) :- !.
+my_reverse([H],L,[H|L]) :- !.
 my_reverse([X|T],L,R) :- my_reverse(T,[X|L],R).
 
 % 1.06 Find out wether a list is a palindrome.
 palindrome(L) :- reverse(L,L).
 
 % 1.07 Flatten a nested list structure.
-my_flatten([H|[]], X) :-
+my_flatten([H], X) :-
         is_list(H),
         my_flatten(H,X).
-my_flatten([H|[]], [H]).
+my_flatten([H], [H]).
 my_flatten([H|T], X) :-
         is_list(H),
         my_flatten(H, Y),
@@ -39,8 +39,8 @@ my_flatten([H|T], X) :-
 my_flatten([H|T], [H|X]) :- my_flatten(T,X).
 
 % 1.08 Elimiate consecutive duplicates of list elements.
-compress([H|[]], [H]).
-compress([H|[H|T]], X) :- compress([H|T],X).
+compress([H], [H]).
+compress([H,H|T], X) :- compress([H|T],X).
 compress([H|T], [H|X]) :- compress(T, X).
 
 % 1.09 Pack consecutive duplicates of list elements into sublists.
@@ -90,8 +90,8 @@ duplicate([H], [H,H]).
 duplicate([H|L], [H,H|X]) :- duplicate(L, X).
 
 % 1.15 Duplicate the elements of a list a given number of times.
-duplicate([H|[]], 1, [H]) :- !.
-duplicate([H|[]], N, [H|X]) :-
+duplicate([H], 1, [H]) :- !.
+duplicate([H], N, [H|X]) :-
         M is N - 1,
         M > 0,
         duplicate([H], M, X).
